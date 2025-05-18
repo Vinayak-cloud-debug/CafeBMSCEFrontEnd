@@ -1,283 +1,448 @@
-import React, { useEffect, useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'bootstrap-icons/font/bootstrap-icons.min.css'
-import axios from 'axios'
-function Menu({MenuList,setMenuList,setLoginStatus,LoginStatus}) {
 
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { 
+    setMenuList, 
+    setBreakFast, 
+    setLunch, 
+    setDinner, 
+    setDessert, 
+    setDrink, 
+    setUserCart, 
+    setCounter, 
+    setCartStatus,
+    setLoginStatus,
+    setSignUpStatus
     
+} from '../redux/actions/index';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import Login from '../pages/Login/login';
+import { set } from 'lodash';
+import { useAuthContext } from '../context/AuthContext';
+import Logout from '../pages/LogOut/Logout';
 
-    // const [AllCategory,setAllCategory] = useState(0)
-    const [Dinner,setDinner] = useState(0)
-    const [Lunch,setLunch] = useState(0)
-    const [BreakFast,setBreakFast] = useState(0)
-    const [Dessert,setDessert] = useState(0)
-    const [Drink,setDrink] = useState(0)
+function Menu() {
+  const dispatch = useDispatch();
 
-    const [Cart,setCart] = useState([])
+
+
+  const {authUser} = useAuthContext();
+  console.log(authUser)
+
+
+  const {
+    breakFast,
+    lunch,
+    dinner,
+    dessert,
+    drink,
+    userCart,
+    menuList,
+    counter
     
-    
-    
-    const handleClick = (index) =>{
+  } = useSelector(state => state);
 
-        
-        if(index === 1){
-            
-            setBreakFast(1)
-            setLunch(0)
-            setDinner(0)
-            setDessert(0)
-            setDrink(0)
-            
-            var myCategory = {SelectedCategory:"Breakfast"}
-            axios.post("http://localhost:9000/api/GetFoodItemsByCategory",myCategory)
-            .then(response=>{
+  // Reset all category flags to 0
+  const resetCategories = () => {
+    dispatch(setBreakFast(0));
+    dispatch(setLunch(0));
+    dispatch(setDinner(0));
+    dispatch(setDrink(0));
+    dispatch(setDessert(0));
+  };
 
-            
-                console.log(response.data)
-                setMenuList(response.data)
-            })
-        
-        }
-        else
-        if(index === 2){
-            
-            setBreakFast(0)
-            setLunch(1)
-            setDinner(0)
-            setDessert(0)
-            setDrink(0)
-            
-            var myCategory = {SelectedCategory:"Both"}
-            axios.post("http://localhost:9000/api/GetFoodItemsByCategory",myCategory)
-            .then(response=>{
+  
 
-                
-                console.log(response.data)
-                setMenuList(response.data)
-            })
-        
-        }
-        else
-        if(index === 3){
-            
-            setBreakFast(0)
-            setLunch(0)
-            setDinner(1)
-            setDessert(0)
-            setDrink(0)
-        
-            var myCategory = {SelectedCategory:"Both"}
-            axios.post("http://localhost:9000/api/GetFoodItemsByCategory",myCategory)
-            .then(response=>{
-
-                console.log(response.data)
-                setMenuList(response.data)
-            })
-        
-        }
-        else
-        if(index === 4){
-            
-            setBreakFast(0)
-            setLunch(0)
-            setDinner(0)
-            setDrink(1)
-            setDessert(0)
-            
-        
-            var myCategory = {SelectedCategory:"Drink"}
-            axios.post("http://localhost:9000/api/GetFoodItemsByCategory",myCategory)
-            .then(response=>{
-
-                console.log(response.data)
-                setMenuList(response.data)
-            })
-        }
-        else
-        if(index === 5){
-            
-            setBreakFast(0)
-            setLunch(0)
-            setDinner(0)
-            setDrink(0)
-            setDessert(1)
-            
-        
-            var myCategory = {SelectedCategory:"Dessert"}
-            axios.post("http://localhost:9000/api/GetFoodItemsByCategory",myCategory)
-            .then(response=>{
-
-                
-                console.log(response.data)
-                setMenuList(response.data)
-            })
-        
-        }
+  useEffect(() => {
+  axios.get("http://localhost:9000/api/GetAllFoodItems")
+    .then(response => {
+      const updatedMenuList = response.data.map(Item => {
+        const CartItem = userCart.find(cartItem => cartItem.Name === Item.Name);
+        return CartItem ? { ...Item, qty: CartItem.qty } : { ...Item, qty: 0 };
+      });
+      dispatch(setMenuList(updatedMenuList));
+    })
+    .catch(err => console.log(err));
+}, []); // <--- add userCart as a dependency
 
 
+
+
+
+  const [nashta,setNashta] = useState(false);
+  const [oota,setOota] = useState(false);
+  const [nightOota,setNightOota] = useState(false);
+  const [drinks,setDrinks] = useState(false);
+  const [icecream,setIcecream] = useState(false);
+
+
+  
+
+  const handleClick = (index) => {
+
+    switch (index) {
+      case 1:
+        
+        dispatch(setBreakFast(1));
+        break;
+      case 2:
+        dispatch(setLunch(2));
+        break;
+      case 3:
+        dispatch(setDinner(3));
+        break;
+      case 4:
+        dispatch(setDrink(4));
+        break;
+      case 5:
+        dispatch(setDessert(5));
+        break;
+      default:
+        break;
     }
 
-    const ChangeStatus = () =>{
+    const categories = ["Breakfast", "lunch", "Dinner", "Drink", "Dessert"];
+    const selectedCategory = categories[index - 1];
 
-        setLoginStatus(true)
+    if (selectedCategory) {
+      axios.post("http://localhost:9000/api/GetFoodItemsByCategory", { SelectedCategory: selectedCategory })
+        .then(response => {
+          const updatedMenuList = response.data.map(Item => {
+            const CartItem = userCart.find(cartItem => cartItem.Name === Item.Name);
+            return CartItem ? { ...Item, qty: CartItem.qty } : { ...Item, qty: 0 };
+          });
+          
+          dispatch(setMenuList(updatedMenuList));
+        })
+        .catch(err => console.log(err));
     }
+  };
 
-    const AddItem = (FoodName) =>{
 
-        if(BreakFast === 0 && Lunch === 0 && Dinner === 0 && Dessert === 0 && Drink === 0)
-            alert("Select the Food Category")
 
-        else{
-            var myFood = {FoodName:FoodName}
-            axios.post("http://localhost:9000/api/Food/AddOnce",myFood)
-            .then(response=>{
+  const AddItem = (Food) => {
 
-                setMenuList(response.data)
 
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        }
-    }
+  if (!breakFast && !lunch && !dinner && !dessert && !drinks) {
+    alert("Select the Food Category");
+    return;
+  }
 
+  const existingCartItem = userCart.find(item => item.Name === Food.Name);
+
+  if (existingCartItem) {
+    IncrementQty(Food);
+  } else {
+    const updatedFood = { ...Food, qty: 1 };
+    const updatedMenuList = menuList.map(item => 
+      item.Name === Food.Name ? updatedFood : item
+    );
     
-    const IncrementQty = (FoodName) =>{
+    dispatch(setMenuList(updatedMenuList));
+    dispatch(setUserCart([...userCart, updatedFood]));
+    dispatch(setCounter(counter + 1));
+  }
+};
 
-        if(BreakFast === 0 && Lunch === 0 && Dinner === 0 && Dessert === 0 && Drink === 0)
-            alert("Select the Food Category")
 
-        else{
-            var myFood = {FoodName:FoodName}
-            axios.post("http://localhost:9000/api/Food/QtyIncrement",myFood)
-            .then(response=>{
 
-                setMenuList(response.data)
+const IncrementQty = (Food) => {
+  if (!breakFast && !lunch && !dinner && !dessert && !drink) {
+    alert("Select the Food Category");
+    return;
+  }
 
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        }
+  const updatedMenuList = menuList.map(item =>
+    item.Name === Food.Name ? { ...item, qty: item.qty + 1 } : item
+  );
+  dispatch(setMenuList(updatedMenuList));
+
+  const existingCartItem = userCart.find(item => item.Name === Food.Name);
+  if (existingCartItem) {
+    const updatedCart = userCart.map(item =>
+      item.Name === Food.Name ? { ...item, qty: item.qty + 1 } : item
+    );
+    dispatch(setUserCart(updatedCart));
+  } else {
+    dispatch(setUserCart([...userCart, { ...Food, qty: 1 }]));
+    dispatch(setCounter(counter + 1));
+  }
+};
+
+const DecrementQty = (Food) => {
+  if (!breakFast && !lunch && !dinner && !dessert && !drink) {
+    alert("Select the Food Category");
+    return;
+  }
+
+  if (Food.qty > 0) {
+    const updatedMenuList = menuList.map(item =>
+      item.Name === Food.Name ? { ...item, qty: item.qty - 1 } : item
+    );
+    dispatch(setMenuList(updatedMenuList));
+
+    if (Food.qty === 1) {
+      const updatedCart = userCart.filter(item => item.Name !== Food.Name);
+      dispatch(setUserCart(updatedCart));
+      dispatch(setCounter(counter - 1));
+    } else {
+      const updatedCart = userCart.map(item =>
+        item.Name === Food.Name ? { ...item, qty: item.qty - 1 } : item
+      );
+      dispatch(setUserCart(updatedCart));
     }
+  }
+};
 
-    const DecrementQty = (FoodName,Qty) =>{
+  // Fix whitespace in returned class names, add responsive text size
+  const getCategoryStyle = (isActive) => 
+    `block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out ${
+      isActive ? 'bg-red-500 text-white' : 'bg-transparent hover:bg-red-100'
+    }`;
 
-        if(BreakFast === 0 && Lunch === 0 && Dinner === 0 && Dessert === 0 && Drink === 0)
-            alert("Select the Food Category")
-
-        if(Qty > 0){
-            var myFood = {FoodName:FoodName}
-            axios.post("http://localhost:9000/api/FoodtoBe/QtyDecrement",myFood)
-            .then(response=>{
-
-                setMenuList(response.data)
-
-            })
-            .catch(err=>{
-                console.log(err)
-            })
-        }
-        else
-            alert("Qty value is 0")
-    }
+  const Checkout = () => {
+    navigate("/cart");
+  };
 
 
-    
+  const navigate = useNavigate();
+
+  const About = () => {
+    navigate("/About");
+  }
+  const OrderOnline = () => {
+    navigate("/OrderOnline");
+  }
+  const Reservation = () => {
+    navigate("/Reservation");
+  }
+  const ContactUs = () => {
+    navigate("/ContactUs");
+  }
+
+
+  const [login,setLogin] = useState(false);
+
   return (
-    <div className = 'bg-orange-50 min-h-screen flex flex-col gap-[100px]' >
-         <div class = 'flex flex-row gap-[20px]' >
-            <div class=' text-3xl font-medium ml-[200px] mt-[88px] bg-red-500 h-[60px] w-[60px] rounded-[30px]
-             flex justify-center items-center text-white text-[2.5rem] rotate-[-30deg]' >F</div>
+    
 
-            <h1 className='mt-24 text-3xl font-bold' >Foodo<span className='text-red-600 text-3xl' >.</span></h1>
-            <h1 className='mt-24 text-xl font-light hover:text-orange-500 cursor-pointer ml-[50px]  '  >Home</h1>
-            <h1 className='mt-24 text-xl font-light hover:text-orange-500 cursor-pointer ' >Menu</h1>
-            <h1 className='mt-24 text-xl font-light hover:text-orange-500 cursor-pointer' >About us</h1>
-            <h1 className='mt-24 text-xl font-light hover:text-orange-500 cursor-pointer' >Order Online</h1>
-            <h1 className='mt-24 text-xl font-light hover:text-orange-500 cursor-pointer' >Reservation</h1>
-            <h1 className='mt-24 text-xl font-light hover:text-orange-500 cursor-pointer' >Contact Us</h1>
+    <div className='bg-orange-50 min-h-screen flex flex-col gap-12 px-4 sm:px-8 relative'>
 
-            <div class=' text-3xl font-medium ml-[100px] mt-[88px] bg-white h-[60px] w-[60px] rounded-[30px]
-             flex justify-center items-center text-black text-[2.5rem] cursor-pointer' >
 
-            <i><svg className=' mt-[200px] ' xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-cart3 " viewBox="0 0 16 16">
-                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l.84 4.479 9.144-.459L13.89 4zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-                </svg></i>
-             </div>
+    {authUser === null && !login? 
+      <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      // clicking outside closes modal
+    >
 
-            <div onClick={ChangeStatus} className='h-[50px] w-[130px] rounded-2xl cursor-pointer mt-[96px]  text-white bg-red-500' ><h1 className='font-small text-lg mt-2 ' >Log in</h1></div>
-         </div>
-
-         <h1 className='text-5xl font-bold' >Our Popular Menu</h1>
-
-        <div className='flex flex-row gap-[100px] ml-[100px]' >
-
-            {/* <h1 onClick={()=>handleClick(0)} className={`block px-4 py-2 text-2xl cursor-pointer rounded border-2 transition-all duration-300  ${AllCategory ? 'bg-red-500 text-white border-red-500' : 'bg-transparent border-transparent'
-            }`} >All category</h1> */}
-
-            <h1 onClick={()=>handleClick(1)} className={`block ml-[100px] px-4 py-2 text-2xl cursor-pointer rounded border-2 transition-all duration-300  ${BreakFast ? 'bg-red-500 text-white border-red-500' : 'bg-transparent border-transparent'
-            }`} >BreakFast</h1>
-            <h1 onClick={()=>handleClick(2)} className={`block px-4 py-2 text-2xl cursor-pointer rounded border-2 transition-all duration-300  ${Lunch ? 'bg-red-500 text-white border-red-500' : 'bg-transparent border-transparent'
-            }`} >Lunch</h1>
-            <h1 onClick={()=>handleClick(3)} className={`block px-4 py-2 text-2xl cursor-pointer rounded border-2 transition-all duration-300  ${Dinner ? 'bg-red-500 text-white border-red-500' : 'bg-transparent border-transparent'
-            }`} >Dinner</h1>
-            <h1 onClick={()=>handleClick(4)} className={`block px-4 py-2 text-2xl cursor-pointer rounded border-2 transition-all duration-300  ${Drink ? 'bg-red-500 text-white border-red-500' : 'bg-transparent border-transparent'
-            }`} >Drink</h1>
-            <h1 onClick={()=>handleClick(5)} className={`block px-4 py-2 text-2xl cursor-pointer rounded border-2 transition-all duration-300  ${Dessert ? 'bg-red-500 text-white border-red-500' : 'bg-transparent border-transparent'
-            }`} >Dessert</h1>
-        </div>
-
-        <div className='flex flex-wrap gap-1'>
-            {MenuList.map(Item=>
-            <div className='bg-white rounded-3xl  h-[630px] w-[400px] ml-20 mb-24' >
-            
-                    <div className='flex flex-col gap-10'>
-                        <img className='h-[250px] w-[300px] ml-[50px] mt-[30px]'  src={Item.imgUrl}/>
-                        <h1 className='text-3xl' >{Item.Name}</h1>
-                        <span>{Item.Description}</span>
-                        <div className='flex flex-row gap-1 ml-[150px]'>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                </svg>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                </svg>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                </svg>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                </svg>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
-                                <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
-                                </svg>
-
-                        </div>
-                        <div className='flex flex-row gap-10'>
-                            <span className='ml-[70px] mt-[7px] font-medium text-3xl'>Rs.{Item.Price}</span>
-                            
-                            
-                            <div className={`h-[50px] w-[130px] rounded-2xl cursor-pointer   text-white ${Item.Qty === 0? 'bg-red-500':<div></div>}`} >
-
-                                {Item.Qty >= 1 ?<div  className='flex flex-row gap-2'><button className='h-[30px] w-[30px] mt-[10px] rounded-md font-extrabold bg-red-500 text-yellow-50' onClick={()=>IncrementQty(Item.Name)} >+</button>
-                                <div className='text-black mt-[10px]' >{Item.Qty}</div><button onClick={()=>DecrementQty(Item.Name,Item.Qty)} className='h-[30px] w-[30px] mt-[10px] rounded-md font-extrabold bg-yellow-300 '>-</button></div> 
-                                :<h1 onClick={()=>AddItem(Item.Name)} className='font-small text-lg mt-2 ' >Order Now</h1>}
-                            </div>
-                        </div>
-                    </div>
-
+      <div 
+        className="relative z-60  rounded-lg p-6 w-full max-w-md"
         
-            </div>
-            )}
-        </div>
+      >
+        {/* Close button */}
+        <button
+          onClick={() => setLogin(!login)}
+          className="absolute top-64 right-16 lg:top-44 lg:right-16 text-red-700 hover:text-gray-900 text-2xl font-bold"
+          aria-label="Close modal"
+        >
+          &times;
+        </button>
+
+        <Login />
+      </div>
     </div>
-  )
+    :null}
+
+
+  <div className='flex flex-wrap items-center justify-between py-6'>
+    <div className='flex items-center gap-4'>
+      <div className='text-2xl sm:text-3xl font-medium bg-red-500 h-16 w-16 sm:h-[90px] sm:w-[90px] rounded-full flex justify-center items-center text-white transform -rotate-12'>
+        Cafe
+      </div>
+      <h1 className='text-2xl sm:text-3xl font-bold'>BMSCE<span className='text-red-600'>.</span></h1>
+    </div>
+
+    <div className='flex flex-wrap gap-4 text-sm sm:text-lg mt-4 sm:mt-0'>
+      <span className='cursor-pointer hover:text-orange-500'>Home</span>
+      <span onClick={About} className='cursor-pointer hover:text-orange-500'>About us</span>
+      <span onClick={OrderOnline} className='cursor-pointer hover:text-orange-500'>Order Online</span>
+      <span onClick={Reservation} className='cursor-pointer hover:text-orange-500'>Reservation</span>
+      <span onClick={ContactUs} className='cursor-pointer hover:text-orange-500'>Contact Us</span>
+    </div>
+
+    <div className='flex items-center gap-4 mt-4 sm:mt-0'>
+     
+
+
+      {authUser === null ? 
+      <div 
+        onClick={() => setLogin(!login)} 
+        className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out flex items-center justify-center select-none"
+      >
+        <h1 className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-sm">
+          Log in
+        </h1>
+      </div>
+
+
+:
+  <div className='flex flex-wrap gap-5'>
+ <div onClick={Checkout} className='text-xl sm:text-2xl bg-white h-10 w-10 sm:h-[60px] sm:w-[60px] rounded-full flex justify-center items-center cursor-pointer'>
+        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor"
+  viewBox="0 0 16 16"
+  className="w-6 h-6"
+>
+  <path d="M0 1a1 1 0 0 1 1-1h1.5a.5.5 0 0 1 .485.379L3.89 3H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.49-.402L1.61 1.607 1.11 0H1a1 1 0 0 1-1-1zm3.14 3l1.25 6h8.197l1.2-5.6H4.89L3.14 3zM5.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm7 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+</svg>
+
+    </div>
+
+
+<div 
+  onClick={()=>navigate('/MyProfile')}
+  className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out flex items-center justify-center select-none"
+>
+  <h1 className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-sm">
+    My Profile
+  </h1>
+</div>
+
+<Logout/>
+    </div>
 }
 
-//<span className=' mt-[7px] font-normal text-xl'>{Item.Qty}</span>
-export default Menu
+    </div>
+  </div>
+
+
+ 
+
+  {/* Title */}
+  <h1 className='text-3xl sm:text-5xl font-bold text-center'>Welcome to Our Popular Menu</h1>
+
+  {/* Categories */}
+  <div className='flex flex-wrap justify-center gap-4 sm:gap-10 mt-6'>
+      <button
+        onClick={() =>  {setNashta(true);
+          setOota(false);
+          setNightOota(false);
+          setDrinks(false);
+          setIcecream(false);
+        handleClick(1);}}
+        className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out ${nashta ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
+      >
+        Breakfast
+      </button>
+
+      <button
+        onClick={() => {setNashta(false);
+          setOota(true);
+          setNightOota(false);
+          setDrinks(false);
+          setIcecream(false);
+        handleClick(2);}}
+        className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${oota ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
+      >
+        Lunch
+      </button>
+
+      <button
+        onClick={() => {setNashta(false);
+          setOota(false);
+          setNightOota(true);
+          setDrinks(false);
+          setIcecream(false);
+        handleClick(3);}}
+        className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${nightOota ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
+      >
+        Dinner
+      </button>
+
+      <button
+        onClick={() => {setNashta(false);
+          setOota(false);
+          setNightOota(false);
+          setDrinks(true);
+          setIcecream(false);
+        handleClick(4);}}
+        className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${drinks ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
+      >
+        Drink
+      </button>
+
+      <button
+        
+        onClick={() => {setNashta(false);
+          setOota(false);
+          setNightOota(false);
+          setDrinks(false);
+          setIcecream(true);
+        handleClick(5);}}
+        className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${icecream ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
+      >
+        Dessert
+      </button>
+
+
+  </div>
+
+  {/* Menu Items */}
+  <div className='flex flex-wrap justify-center gap-6 sm:gap-10 mt-10'>
+    {menuList && menuList.map((Item, index) => (
+      <div key={index} className='bg-white rounded-3xl p-4 max-w-xs w-full shadow-md flex flex-col items-center'>
+        <img className='w-full h-48 object-cover rounded-xl' src={Item.imgUrl} alt={Item.Name} />
+        <h1 className='text-xl sm:text-2xl font-semibold mt-4'>{Item.Name}</h1>
+        <p className='text-sm text-center mt-2 px-2'>{Item.Description}</p>
+        <div className='flex gap-1 mt-2'>
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} className='w-4 h-4 text-yellow-400' xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3.612 15.443c-.396.198-.824-.149-.746-.592l.83-4.73-3.523-3.356c-.329-.314-.158-.888.283-.95l4.898-.696L8.465.792c.197-.39.73-.39.927 0l2.19 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.35.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+
+          ))}
+        </div>
+        <div className='flex items-center justify-between w-full mt-4'>
+  <span className='text-xl font-medium'>Rs. {Item.Price}</span>
+  {Item.qty === 0 ? (
+    <button
+      onClick={() => AddItem(Item)}
+      className='bg-red-500 text-white px-4 py-2 rounded-xl text-sm hover:bg-red-600 transition-shadow duration-300 shadow-md'
+    >
+      Order Now
+    </button>
+  ) : (
+    <div className='flex items-center gap-3 bg-red-100 px-3 py-1 rounded-xl shadow-lg'>
+      <button 
+        onClick={(e) => { e.stopPropagation(); IncrementQty(Item); }} 
+        className='text-green-600 text-2xl font-bold hover:text-green-800 transition-colors duration-300 select-none'
+        aria-label="Increase quantity"
+      >
+        +
+      </button>
+      <span className='font-semibold text-lg'>{Item.qty}</span>
+      <button 
+        onClick={(e) => { e.stopPropagation(); DecrementQty(Item); }} 
+        className='text-green-600 text-2xl font-bold hover:text-green-800 transition-colors duration-300 select-none'
+        aria-label="Decrease quantity"
+      >
+        -
+      </button>
+    </div>
+  )}
+</div>
+
+      </div>
+    ))}
+  </div>
+
+  <div className='mt-32'></div>
+</div>
+
+
+  );
+}
+
+export default Menu;

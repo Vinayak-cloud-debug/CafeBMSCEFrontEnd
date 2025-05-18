@@ -1,36 +1,61 @@
-import logo from './logo.svg';
 import './App.css';
 import Menu from './Components/Menu';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
-import Login from './Components/Login';
-import SignUp from './Components/SignUp';
+import Cart from './Components/Cart';
+import { setMenuList } from './redux/actions/index'; // Import action
+import { Route, Routes } from 'react-router-dom';
+import AboutUs from './Components/About';
+import Reservation from './Components/Reservation';
+import ContactUs from './Components/ContactUs';
+import OrderOnline from './Components/OrderOnline';
+import OrderDetails from './Components/OrderDetails';
+import Login from './pages/Login/login'
+import SignUp from './pages/SignUp/SignUp'
+import VerifyGmail from './pages/verifyOtp/GmailAuth'
+import ForgotPassword from './pages/forgotPassword/ForgotPassword';
+import ResetPassword from './pages/resetPassword/ResetPassword';
+import VerifyOTP from './pages/verifyOtp/verifyGmailOtp';
+import MyProfile from './Components/Profile';
+import { useAuthContext } from './context/AuthContext';
+
 
 function App() {
-
-  const[MenuList,setMenuList] = useState([])
-  const[LoginStatus,setLoginStatus] = useState(false)
-  const[SignUpStatus,setSignUpStatus] = useState(false)
-  const[ConfirmedLogin,setConfirmLogin] = useState(false)
-
-  useEffect(()=>{
-
-    axios.post("http://localhost:9000/api/GetAllFoodItems")
-    .then(response=>{
-
-        console.log(response.data)
-        setMenuList(response.data)
-    })
-  },[])
+ 
+      const {authUser} = useAuthContext();
 
   
   return (
     <div className="App">
-      {!LoginStatus && !SignUpStatus ? <Menu setLoginStatus={setLoginStatus} LoginStatus={LoginStatus} MenuList = {MenuList} setMenuList = {setMenuList} /> 
-      : LoginStatus === true && SignUpStatus === false ? <Login ConfirmedLogin={ConfirmedLogin} setConfirmLogin={setConfirmLogin} LoginStatus={LoginStatus} setLoginStatus = {setLoginStatus} SignUpStatus={SignUpStatus} setSignUpStatus={setSignUpStatus}/>
-      :<SignUp LoginStatus={LoginStatus} setLoginStatus = {setLoginStatus} SignUpStatus={SignUpStatus} setSignUpStatus={setSignUpStatus}/>}
       
-      
+      <Routes>
+        <Route path = '/' element = {<Menu/>} />
+        <Route path = '/cart' element = {authUser === null ? <Menu/> : <Cart/>} />
+        
+        <Route path = '/about' element = {<AboutUs/>} />
+        <Route path = '/Reservation' element = {<Reservation/>} />
+        <Route path = '/ContactUs' element = {<ContactUs/>} />
+        <Route path = '/OrderOnline' element = {<OrderOnline/>} />
+        <Route path = '/OrderDetails' element = {authUser === null ? <Menu/> : <OrderDetails/>} />
+        <Route path = '/login' element = {<Login/>}/>
+        <Route path = '/SignUp' element = {<SignUp/>}/>
+        <Route path = '/Verify-Gmail' element = {<VerifyGmail/>}/>
+        <Route path='/reset-password' element={<ResetPassword />} />
+        <Route path='/verifyOTP' element={<VerifyOTP />} />
+        <Route path='/forgot-password' element={<ForgotPassword />} />
+        <Route path='/MyProfile' element={authUser === null ? <Menu/> : <MyProfile />} />
+
+
+
+
+
+
+
+
+      </Routes>
+
+
     </div>
   );
 }
