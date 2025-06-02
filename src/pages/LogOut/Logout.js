@@ -11,7 +11,7 @@ const Logout = () => {
 	try {
             
 			
-		const res = await fetch("http://localhost:9000/api/auth/logout", {
+		const res = await fetch("https://cafebmscebackend.onrender.com/api/auth/logout", {
 			method: "POST",
 			credentials:"include",
 			headers: { "Content-Type": "application/json" },
