@@ -22,7 +22,7 @@ function SignUp({SignUpStatus,setSignUpStatus,LoginStatus,setLoginStatus}) {
 
 
             
-            axios.post("http://localhost:9000/api/Customer/SignUp",myData)
+            axios.post("https://cafebmscebackend.onrender.com/api/Customer/SignUp",myData)
             .then(response=>{
 
                 alert("Data inserted")
