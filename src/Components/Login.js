@@ -11,7 +11,7 @@ function Login({LoginStatus,setLoginStatus,SignUpStatus,setSignUpStatus,Confirme
     const authenticate=()=>{
 
         var CustomerData = {Login:login.current.value}
-        axios.post("http://localhost:9000/api/Customer/Login",CustomerData)
+        axios.post("https://cafebmscebackend.onrender.com/api/Customer/Login",CustomerData)
         .then(response=>{
 
             console.log(response.data)
