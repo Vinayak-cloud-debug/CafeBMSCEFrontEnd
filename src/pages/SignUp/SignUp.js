@@ -47,7 +47,7 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:9000/api/auth/Verify-Gmail", {
+      const response = await fetch("https://cafebmscebackend.onrender.com/api/auth/Verify-Gmail", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ GmailValue: gmailValue }),
@@ -81,7 +81,7 @@ const SignUp = () => {
       var gender = inputs.gender
 
 
-			const res = await fetch("http://localhost:9000/api/auth/signup", {
+			const res = await fetch("https://cafebmscebackend.onrender.com/api/auth/signup", {
 				method: "POST",
         credentials:"include",
 				headers: { "Content-Type": "application/json" },
