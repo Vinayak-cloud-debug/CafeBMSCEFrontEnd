@@ -19,7 +19,7 @@ import ResetPassword from './pages/resetPassword/ResetPassword';
 import VerifyOTP from './pages/verifyOtp/verifyGmailOtp';
 import MyProfile from './Components/Profile';
 import { useAuthContext } from './context/AuthContext';
-
+import AdminPage from './Components/AdminPage';
 
 function App() {
  
@@ -45,7 +45,7 @@ function App() {
         <Route path='/verifyOTP' element={<VerifyOTP />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/MyProfile' element={authUser === null ? <Menu/> : <MyProfile />} />
-
+        <Route path='/AdminPage' element={<AdminPage />} />
 
 
 
