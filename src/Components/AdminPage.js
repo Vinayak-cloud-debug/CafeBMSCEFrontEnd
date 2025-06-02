@@ -65,7 +65,7 @@ export default function AdminPage() {
 
     try {
       await Promise.all(updates.map(([orderId, newStatus]) =>
-        axios.put(`http://localhost:9000/api/updateOrderStatus`, {
+        axios.put(`https://cafebmscebackend.onrender.com/api/updateOrderStatus`, {
           orderId,
           newStatus
         })
