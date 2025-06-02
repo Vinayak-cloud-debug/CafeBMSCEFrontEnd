@@ -80,7 +80,7 @@ export default function AdminPage() {
       alert("All changes saved successfully!");
     } catch (error) {
       console.error("Error updating statuses:", error);
-      alert("Failed to update some statuses.");
+      alert("Failed to update some status.");
     }
   };
 
