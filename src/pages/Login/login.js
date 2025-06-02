@@ -92,7 +92,7 @@ const Login = () => {
     <input
       type="text"
       placeholder="Enter your Gmail"
-      className="flex-1 p-3 bg-gray-50 text-black outline-none rounded-r-xl text-sm sm:text-base"
+      className=" bg-gray-50 text-black outline-none rounded-r-xl text-sm sm:text-base"
       value={username}
       onChange={(e) => setUsername(e.target.value)}
     />
@@ -109,7 +109,7 @@ const Login = () => {
     <input
       type="password"
       placeholder="Enter your Password"
-      className="flex-1 p-3 bg-gray-50 text-black outline-none rounded-r-xl text-sm sm:text-base"
+      className=" bg-gray-50 text-black outline-none rounded-r-xl text-sm sm:text-base"
       value={password}
       onChange={(e) => setPassword(e.target.value)}
     />
