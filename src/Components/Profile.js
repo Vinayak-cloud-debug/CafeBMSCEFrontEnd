@@ -42,7 +42,7 @@ export default function MyProfile() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.post(`http://localhost:9000/api/fetchUserOrders`,{
+        const res = await axios.post(`https://cafebmscebackend.onrender.com/api/fetchUserOrders`,{
             email:email
         })
         setOrders(res.data);
