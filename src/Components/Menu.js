@@ -55,7 +55,7 @@ function Menu() {
   
 
   useEffect(() => {
-  axios.get("http://localhost:9000/api/GetAllFoodItems")
+  axios.get("https://cafebmscebackend.onrender.com/api/GetAllFoodItems")
     .then(response => {
       const updatedMenuList = response.data.map(Item => {
         const CartItem = userCart.find(cartItem => cartItem.Name === Item.Name);
@@ -106,7 +106,7 @@ function Menu() {
     const selectedCategory = categories[index - 1];
 
     if (selectedCategory) {
-      axios.post("http://localhost:9000/api/GetFoodItemsByCategory", { SelectedCategory: selectedCategory })
+      axios.post("https://cafebmscebackend.onrender.com/api/GetFoodItemsByCategory", { SelectedCategory: selectedCategory })
         .then(response => {
           const updatedMenuList = response.data.map(Item => {
             const CartItem = userCart.find(cartItem => cartItem.Name === Item.Name);
