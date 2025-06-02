@@ -43,7 +43,7 @@ const PlaceOrder = () => {
     items:items,
   };
 
-  axios.post("http://localhost:9000/api/ConfirmOrderDetails",
+  axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
     {orderData: orderData,email:EmaiLId,totalAmount:totalAmount}, {
     headers: { "Content-Type": "application/json" }
   })
