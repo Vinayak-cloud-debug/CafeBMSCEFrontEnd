@@ -13,7 +13,7 @@ const VerifyOtp = () => {
     try {
       var email = localStorage.getItem("email");
 
-      const response = await fetch("http://localhost:9000/api/auth/verify-otp", {
+      const response = await fetch("https://cafebmscebackend.onrender.com/api/auth/verify-otp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp }),
