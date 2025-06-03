@@ -290,7 +290,6 @@
 
 // export default OrderDetails;
 
-
 import axios from 'axios';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -327,8 +326,8 @@ function OrderDetails() {
     const totalAmount = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
     const canteenName = sessionStorage.getItem('canteen');
 
-    axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails", {
-      cartData: items,
+    axios.post("http://localhost:9000/api/ConfirmOrderDetails", {
+      cartData: { items },
       email: EmaiLId,
       totalAmount:totalAmt,
       canteenName:canteenName
@@ -339,7 +338,7 @@ function OrderDetails() {
         if (res.data === "Order Confirmed") {
           setOrderPlaced(true);
           dispatch(setUserCart([]));
-          setTimeout(() => navigate('/home'), 4000); // redirect after 4 seconds
+          setTimeout(() => navigate('/'), 4000); // redirect after 4 seconds
         } else {
           alert("Didn't place your order");
         }
@@ -430,4 +429,3 @@ function OrderDetails() {
 }
 
 export default OrderDetails;
-
