@@ -37,10 +37,7 @@ const PlaceOrder = () => {
     imgUrl: item.imgUrl
   }));
 
-  alert(items)
-  alert(EmailId)
-  alert(totalAmt)
- 
+
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
     {cartData: items,email:EmailId,totalAmount:totalAmt}, {
