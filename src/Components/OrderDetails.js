@@ -328,10 +328,10 @@ function OrderDetails() {
     const canteenName = sessionStorage.getItem('canteen');
 
     axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails", {
-      orderData: { items },
+      cartData: items,
       email: EmaiLId,
-      totalAmount,
-      canteenName
+      totalAmount:totalAmt,
+      canteenName:canteenName
     }, {
       headers: { "Content-Type": "application/json" }
     })
