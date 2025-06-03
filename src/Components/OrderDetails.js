@@ -4,9 +4,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setUserCart } from '../redux/actions';
+import { CheckCircle } from 'lucide-react';
 
 function OrderDetails() {
   const navigate = useNavigate();
+  const [orderPlaced,setOrderPlaced] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -47,8 +49,9 @@ const PlaceOrder = () => {
     .then(res => {
       
       if (res.data.msg === "Order Confirmed") {
-        alert("Placed Order");
+        setOrderPlaced(true)
         dispatch(setUserCart([]))
+        setTimeout(() => navigate('/home'), 3000); // redirect after 4 seconds
 
       } else {
         alert("Didnt Place Your Order");
@@ -66,6 +69,16 @@ const PlaceOrder = () => {
 
   return (
     <div className="max-w-screen-lg mx-auto px-4 py-8">
+
+
+      {orderPlaced && (
+        <div className="fixed inset-0 bg-white bg-opacity-90 flex flex-col justify-center items-center z-50">
+          <CheckCircle className="text-green-500 animate-bounce" size={100} />
+          <h2 className="text-3xl font-bold mt-4 text-gray-800">Order Placed Successfully!</h2>
+          <p className="text-gray-600 mt-2">Redirecting to homepage...</p>
+        </div>
+      )}
+
 
       <div className="bg-white rounded-xl shadow-md p-6">
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">🧾 Order Summary</h2>
