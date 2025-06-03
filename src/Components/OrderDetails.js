@@ -39,6 +39,8 @@ const PlaceOrder = () => {
 
   const totalAmount = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
 
+
+  console.log(items,EmailId,totalAmount)
  
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
