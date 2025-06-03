@@ -757,8 +757,9 @@ const DecrementQty = (Food) => {
       </div>
       <h1 className='text-2xl sm:text-3xl font-bold'>BMSCE<span className='text-red-600'>.</span></h1>
       <div className='flex flex-wrap gap-6 text-sm sm:text-lg mt-4 sm:mt-0'>
-      <span onClick={About} className='cursor-pointer text-base -mt-3 font-semibold hover:text-orange-500'>About us</span>
-      <span onClick={ContactUs} className='cursor-pointer text-lg -mt-3 font-semibold hover:text-orange-500'>Contact Us</span>
+      <span onClick={About} className='cursor-pointer text-base lg:text-lg -mt-3 lg:-mt-0 font-semibold hover:text-orange-500'>About us</span>
+      <span onClick={ContactUs} className='cursor-pointer text-base lg:text-lg -mt-3 lg:-mt-0 font-semibold hover:text-orange-500'>Contact Us</span>
+   
     </div>
     </div>
 
