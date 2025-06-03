@@ -38,9 +38,11 @@ const PlaceOrder = () => {
   }));
 
 
+    const canteenName = sessionStorage.getItem('canteen')
+
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
-    {cartData: items,email:EmailId,totalAmount:totalAmt}, {
+    {cartData: items,email:EmailId,totalAmount:totalAmt,canteenName:canteenName}, {
     headers: { "Content-Type": "application/json" }
   })
     .then(res => {
