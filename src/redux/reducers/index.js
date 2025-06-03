@@ -12,7 +12,8 @@ import {
   SET_LUNCH,
     SET_DINNER,
     SET_DESSERT,
-    SET_ACTIVE_CATEGORY
+    SET_NOODLES
+    
 } from '../actions/index';
 
 // Initial state for each value
@@ -29,6 +30,7 @@ const initialState = {
   lunch : 0,
     dinner : 0,
     dessert : 0,
+    noodles:0
   
 };
 
@@ -137,6 +139,17 @@ const breakFastReducer = (state = initialState.breakFast, action) => {
           return state;
       }
     };
+
+    
+const noodlesReducer = (state = initialState.noodles, action) => {
+    switch (action.type) {
+      case SET_NOODLES:
+        return action.payload;
+      default:
+        return state;
+    }
+  };
+  
     
   
 
@@ -162,6 +175,7 @@ const rootReducer = combineReducers({
     lunch: lunchReducer,
     dinner: dinnerReducer,
     dessert: dessertReducer,
+    noodles:noodlesReducer,
   emptyMenuList: emptyMenuListReducer,
 });
 
