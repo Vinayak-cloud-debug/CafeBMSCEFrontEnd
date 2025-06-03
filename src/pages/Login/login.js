@@ -48,7 +48,7 @@ const Login = () => {
         document.cookie = `jwt=${data.token}; path=/; max-age=3600; Secure; HttpOnly; SameSite=Strict`;
   
         toast.success('Logged In Successfully!');
-        navigate("/"); // Navigate to the home page after login
+        navigate("/home"); // Navigate to the home page after login
       }
 
       if(res.status === 400){
