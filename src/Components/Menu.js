@@ -288,14 +288,14 @@
 
 
 //       {authUser === null ? 
-//       <div 
-//         onClick={() => setLogin(!login)} 
-//         className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out flex items-center justify-center select-none"
-//       >
-//         <h1 className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-sm">
-//           Log in
-//         </h1>
-//       </div>
+      // <div 
+      //   onClick={() => setLogin(!login)} 
+      //   className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out flex items-center justify-center select-none"
+      // >
+      //   <h1 className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-sm">
+      //     Log in
+      //   </h1>
+      // </div>
 
 
 // :
@@ -724,21 +724,8 @@ const DecrementQty = (Food) => {
     
 <div className='bg-orange-50 min-h-screen flex flex-col gap-12 px-4 sm:px-8 relative'>
 
-  {/* Welcome and Header */}
-  <div className='flex flex-wrap items-center justify-between py-6'>
-    <div className='flex flex-row items-center gap-8'>
-      <div className='text-2xl sm:text-3xl font-medium bg-red-500 h-16 w-16 sm:h-[90px] sm:w-[90px] rounded-full flex justify-center items-center text-white transform -rotate-12 shadow-md'>
-        Cafe
-      </div>
-      <h1 className='text-2xl sm:text-3xl font-bold'>BMSCE<span className='text-red-600'>.</span></h1>
-      <div className='flex flex-wrap gap-6 text-sm sm:text-lg mt-4 sm:mt-0'>
-        <span onClick={About} className='cursor-pointer text-base -mt-3 lg:-mt-0 font-semibold hover:text-orange-500'>About us</span>
-        <span onClick={ContactUs} className='cursor-pointer text-base -mt-3 lg:-mt-0 font-semibold hover:text-orange-500'>Contact Us</span>
-      </div>
-    </div>
-
-    <div className='flex items-center gap-4 mt-4 sm:mt-0'>
-      {authUser === null && !login? 
+ 
+    {authUser === null && !login? 
       <div 
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
       // clicking outside closes modal
@@ -761,6 +748,63 @@ const DecrementQty = (Food) => {
       </div>
     </div>
     :null}
+
+
+  <div className='flex flex-wrap items-center justify-between py-6'>
+    <div className='flex flex-row items-center gap-8'>
+      <div className='text-2xl sm:text-3xl font-medium bg-red-500 h-16 w-16 sm:h-[90px] sm:w-[90px] rounded-full flex justify-center items-center text-white transform -rotate-12'>
+        Cafe
+      </div>
+      <h1 className='text-2xl sm:text-3xl font-bold'>BMSCE<span className='text-red-600'>.</span></h1>
+      <div className='flex flex-wrap gap-6 text-sm sm:text-lg mt-4 sm:mt-0'>
+      <span onClick={About} className='cursor-pointer text-base -mt-3 font-semibold hover:text-orange-500'>About us</span>
+      <span onClick={ContactUs} className='cursor-pointer text-lg -mt-3 font-semibold hover:text-orange-500'>Contact Us</span>
+    </div>
+    </div>
+
+    
+
+    <div className='flex items-center gap-4 mt-4 sm:mt-0'>
+
+
+      {authUser === null ? 
+      <div 
+        onClick={() => setLogin(!login)} 
+        className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out flex items-center justify-center select-none"
+      >
+        <h1 className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-sm">
+          Log in
+        </h1>
+      </div>
+
+
+:
+  <div className='flex flex-wrap gap-5'>
+ <div onClick={Checkout} className='text-xl sm:text-2xl bg-white h-10 w-10 sm:h-[60px] sm:w-[60px] rounded-full flex justify-center items-center cursor-pointer'>
+        <svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="currentColor"
+  viewBox="0 0 16 16"
+  className="w-6 h-6"
+>
+  <path d="M0 1a1 1 0 0 1 1-1h1.5a.5.5 0 0 1 .485.379L3.89 3H14.5a.5.5 0 0 1 .49.598l-1.5 7A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.49-.402L1.61 1.607 1.11 0H1a1 1 0 0 1-1-1zm3.14 3l1.25 6h8.197l1.2-5.6H4.89L3.14 3zM5.5 13a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm7 0a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z"/>
+</svg>
+
+    </div>
+
+
+<div 
+  onClick={()=>navigate('/MyProfile')}
+  className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out flex items-center justify-center select-none"
+>
+  <h1 className="text-sm sm:text-base font-semibold tracking-wide drop-shadow-sm">
+    My Profile
+  </h1>
+</div>
+
+<Logout/>
+    </div>
+}
 
     </div>
   </div>
