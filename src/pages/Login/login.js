@@ -116,11 +116,19 @@ const Login = () => {
   </div>
 
   {/* Forgot Link */}
-  <div className="text-right text-sm">
-    <Link to="/forgot-password" className="text-[#e50914] font-semibold hover:underline">
-      Forgot Password?
-    </Link>
-  </div>
+  <div className="flex flex-row justify-between text-sm">
+        <div>
+          <Link to="/AdminPage" className="text-[#e50914] font-semibold hover:underline">
+            Admin
+          </Link>
+        </div>
+
+        <div>
+          <Link to="/forgot-password" className="text-[#e50914] font-semibold hover:underline">
+            Forgot Password?
+          </Link>
+        </div>
+      </div>
 
   {/* Login Button */}
   <button
