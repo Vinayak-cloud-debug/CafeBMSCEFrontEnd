@@ -26,7 +26,7 @@ function OrderDetails() {
 
   const totalAmt = itemTotal + restaurantCharge + platformFee + packingFee;
 const PlaceOrder = () => {
-  const EmaiLId = localStorage.getItem("EmailId");
+  const EmailId = localStorage.getItem("EmailId");
   const rawCart = userCart; // assuming this is an array of raw items from state
 
   // Add quantity and map to correct schema shape
@@ -46,7 +46,7 @@ const PlaceOrder = () => {
  
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
-    {cartData: items,email:EmaiLId,totalAmount:totalAmount}, {
+    {cartData: items,email:EmailId,totalAmount:totalAmount}, {
     headers: { "Content-Type": "application/json" }
   })
     .then(res => {
