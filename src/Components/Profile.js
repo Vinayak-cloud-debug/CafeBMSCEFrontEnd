@@ -145,6 +145,7 @@ export default function MyProfile() {
               <p className="text-sm text-gray-700">Order ID: <span className="text-gray-600">{order._id}</span></p>
               <p className="text-sm text-gray-700">Ordered on: <span className="text-gray-600">{new Date(order.createdAt).toLocaleString()}</span></p>
               <p className="text-sm text-gray-700">Status: <span className="capitalize text-blue-600">{order.status}</span></p>
+              <p className="text-sm font-bold text-gray-700">Restaurant: <span className="text-gray-600">{order.canteenName}</span></p>
               <p className="text-sm text-gray-800 mt-1 font-medium">Total: ₹{order.totalAmount}</p>
             </div>
             
