@@ -125,10 +125,10 @@ const PlaceOrder = () => {
       {/* Action Buttons */}
       <div className="mt-8 flex justify-center gap-6">
         <button
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/home')}
           className="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-xl shadow-md transition"
         >
-          🏠 Back to Cart
+          🏠 Back to Home
         </button>
 
         <button
