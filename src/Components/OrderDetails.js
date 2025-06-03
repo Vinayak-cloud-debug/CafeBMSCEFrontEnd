@@ -32,7 +32,7 @@ const PlaceOrder = () => {
   // Add quantity and map to correct schema shape
   const items = rawCart.map(item => ({
     name: item.Name,           // match backend schema
-    quantity: item.quantity || 1, // set default quantity if not present
+    quantity: item.quantity, // set default quantity if not present
     price: item.Price,
     imgUrl: item.imgUrl
   }));
