@@ -42,7 +42,7 @@ const PlaceOrder = () => {
  
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
-    {items: items,email:EmaiLId,totalAmount:totalAmount}, {
+    {cartData: items,email:EmaiLId,totalAmount:totalAmount}, {
     headers: { "Content-Type": "application/json" }
   })
     .then(res => {
