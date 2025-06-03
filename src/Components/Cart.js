@@ -26,7 +26,7 @@ function Cart() {
 
   const navigate = useNavigate();
   const back = () => {
-    navigate('/')
+    navigate('/home')
   };
 
   const emptyCart = () => {
