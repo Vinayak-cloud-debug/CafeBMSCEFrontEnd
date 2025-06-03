@@ -37,16 +37,13 @@ const PlaceOrder = () => {
     imgUrl: item.imgUrl
   }));
 
-  const totalAmount = items.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-
   alert(items)
   alert(EmailId)
   alert(totalAmount)
  
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
-    {cartData: items,email:EmailId,totalAmount:totalAmount}, {
+    {cartData: items,email:EmailId,totalAmount:totalAmt}, {
     headers: { "Content-Type": "application/json" }
   })
     .then(res => {
