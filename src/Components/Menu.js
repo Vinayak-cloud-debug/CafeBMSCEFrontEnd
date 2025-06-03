@@ -12,7 +12,8 @@ import {
     setCounter, 
     setCartStatus,
     setLoginStatus,
-    setSignUpStatus
+    setSignUpStatus,
+    setNoodles
     
 } from '../redux/actions/index';
 import axios from 'axios';
@@ -39,7 +40,8 @@ function Menu() {
     drink,
     userCart,
     menuList,
-    counter
+    counter,
+    noodles
     
   } = useSelector(state => state);
 
@@ -50,6 +52,7 @@ function Menu() {
     dispatch(setDinner(0));
     dispatch(setDrink(0));
     dispatch(setDessert(0));
+    dispatch(setNoodles(0));
   };
 
   
@@ -75,7 +78,7 @@ function Menu() {
   const [nightOota,setNightOota] = useState(false);
   const [drinks,setDrinks] = useState(false);
   const [icecream,setIcecream] = useState(false);
-
+  const [noodle,setNoodle] = useState(false)
 
   
 
@@ -98,11 +101,13 @@ function Menu() {
       case 5:
         dispatch(setDessert(5));
         break;
+      case 6:
+        dispatch(setNoodles(6));
       default:
         break;
     }
 
-    const categories = ["Breakfast", "lunch", "Dinner", "Drink", "Dessert"];
+    const categories = ["Breakfast", "lunch", "Dinner", "Drink", "Dessert","Noodles"];
     const selectedCategory = categories[index - 1];
 
     if (selectedCategory) {
@@ -124,7 +129,7 @@ function Menu() {
   const AddItem = (Food) => {
 
 
-  if (!breakFast && !lunch && !dinner && !dessert && !drinks) {
+  if (!breakFast && !lunch && !dinner && !dessert && !drinks && !noodle) {
     alert("Select the Food Category");
     return;
   }
@@ -148,7 +153,7 @@ function Menu() {
 
 
 const IncrementQty = (Food) => {
-  if (!breakFast && !lunch && !dinner && !dessert && !drink) {
+  if (!breakFast && !lunch && !dinner && !dessert && !drink && !noodle) {
     alert("Select the Food Category");
     return;
   }
@@ -171,7 +176,7 @@ const IncrementQty = (Food) => {
 };
 
 const DecrementQty = (Food) => {
-  if (!breakFast && !lunch && !dinner && !dessert && !drink) {
+  if (!breakFast && !lunch && !dinner && !dessert && !drink && !noodle) {
     alert("Select the Food Category");
     return;
   }
@@ -222,6 +227,14 @@ const DecrementQty = (Food) => {
   }
 
 
+  const cname = sessionStorage.getItem('canteen')
+
+  
+    const [canteenName,setCanteenName] = useState(cname)
+
+
+
+
   const [login,setLogin] = useState(false);
 
   return (
@@ -263,16 +276,12 @@ const DecrementQty = (Food) => {
       <h1 className='text-2xl sm:text-3xl font-bold'>BMSCE<span className='text-red-600'>.</span></h1>
     </div>
 
-    <div className='flex flex-wrap gap-4 text-sm sm:text-lg mt-4 sm:mt-0'>
-      <span className='cursor-pointer hover:text-orange-500'>Home</span>
-      <span onClick={About} className='cursor-pointer hover:text-orange-500'>About us</span>
-      <span onClick={OrderOnline} className='cursor-pointer hover:text-orange-500'>Order Online</span>
-      <span onClick={Reservation} className='cursor-pointer hover:text-orange-500'>Reservation</span>
-      <span onClick={ContactUs} className='cursor-pointer hover:text-orange-500'>Contact Us</span>
+    <div className='flex flex-wrap gap-6 text-sm sm:text-lg mt-4 sm:mt-0'>
+      <span onClick={About} className='cursor-pointer font-semibold hover:text-orange-500'>About us</span>
+      <span onClick={ContactUs} className='cursor-pointer font-semibold hover:text-orange-500'>Contact Us</span>
     </div>
 
     <div className='flex items-center gap-4 mt-4 sm:mt-0'>
-     
 
 
       {authUser === null ? 
@@ -318,10 +327,8 @@ const DecrementQty = (Food) => {
   </div>
 
 
- 
-
   {/* Title */}
-  <h1 className='text-3xl sm:text-5xl font-bold text-center'>Welcome to Our Popular Menu</h1>
+  <h1 className='text-3xl sm:text-5xl font-bold text-center'>Welcome to {canteenName}'s Menu</h1>
 
   {/* Categories */}
   <div className='flex flex-wrap justify-center gap-4 sm:gap-10 mt-6'>
@@ -331,6 +338,7 @@ const DecrementQty = (Food) => {
           setNightOota(false);
           setDrinks(false);
           setIcecream(false);
+          setNoodle(false)
         handleClick(1);}}
         className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out ${nashta ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
       >
@@ -343,6 +351,8 @@ const DecrementQty = (Food) => {
           setNightOota(false);
           setDrinks(false);
           setIcecream(false);
+          setNoodle(false)
+
         handleClick(2);}}
         className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${oota ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
       >
@@ -355,6 +365,8 @@ const DecrementQty = (Food) => {
           setNightOota(true);
           setDrinks(false);
           setIcecream(false);
+          setNoodle(false)
+
         handleClick(3);}}
         className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${nightOota ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
       >
@@ -362,11 +374,14 @@ const DecrementQty = (Food) => {
       </button>
 
       <button
-        onClick={() => {setNashta(false);
+        onClick={() => {
+          setNashta(false);
           setOota(false);
           setNightOota(false);
           setDrinks(true);
           setIcecream(false);
+          setNoodle(false)
+
         handleClick(4);}}
         className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${drinks ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
       >
@@ -380,10 +395,27 @@ const DecrementQty = (Food) => {
           setNightOota(false);
           setDrinks(false);
           setIcecream(true);
+          setNoodle(false)
+
         handleClick(5);}}
         className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${icecream ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
       >
         Dessert
+      </button>
+
+      <button
+        
+        onClick={() => {setNashta(false);
+          setOota(false);
+          setNightOota(false);
+          setDrinks(false);
+          setIcecream(false);
+          setNoodle(true)
+
+        handleClick(6);}}
+        className={`block px-4 py-2 text-xl sm:text-2xl cursor-pointer rounded-lg transition-all duration-300 ease-in-out  ${noodle ? 'bg-gradient-to-r from-red-500 to-red-600 text-white' : ''}`}
+      >
+        Noodles
       </button>
 
 
