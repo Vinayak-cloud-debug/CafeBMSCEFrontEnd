@@ -48,7 +48,8 @@ const PlaceOrder = () => {
     headers: { "Content-Type": "application/json" }
   })
     .then(res => {
-      if (res.data === "Order Confirmed") {
+      
+      if (res.data.msg === "Order Confirmed") {
         alert("Placed Order");
         dispatch(setUserCart([]))
 
