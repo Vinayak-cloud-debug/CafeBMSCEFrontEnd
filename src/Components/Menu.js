@@ -1,6 +1,8 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from "react-router-dom";
+
 import { 
     setMenuList, 
     setBreakFast, 
@@ -270,13 +272,13 @@ const DecrementQty = (Food) => {
 
   <div className='flex flex-wrap items-center justify-between py-6'>
     <div className='flex flex-row items-center gap-8'>
-      <div className='text-2xl sm:text-3xl font-medium bg-red-500 h-16 w-16 sm:h-[90px] sm:w-[90px] rounded-full flex justify-center items-center text-white transform -rotate-12'>
-        Cafe
-      </div>
-      <h1 className='text-2xl sm:text-3xl font-bold'>BMSCE<span className='text-red-600'>.</span></h1>
+     
       <div className='flex flex-wrap gap-6 text-sm sm:text-lg mt-4 sm:mt-0'>
           <span onClick={About} className='cursor-pointer text-base -mt-3 font-semibold hover:text-orange-500'>About us</span>
           <span onClick={ContactUs} className='cursor-pointer text-base -mt-3 font-semibold hover:text-orange-500'>Contact Us</span>
+           <Link>
+              <span to='/' className='cursor-pointer text-base -mt-3 font-semibold hover:text-orange-500'>Canteens</span>
+          </Link>
       </div>
 </div>
 
