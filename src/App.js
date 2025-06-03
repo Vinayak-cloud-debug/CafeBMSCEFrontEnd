@@ -20,7 +20,7 @@ import VerifyOTP from './pages/verifyOtp/verifyGmailOtp';
 import MyProfile from './Components/Profile';
 import { useAuthContext } from './context/AuthContext';
 import AdminPage from './Components/AdminPage';
-
+import CanteenPage from './Components/Canteens.';
 function App() {
  
       const {authUser} = useAuthContext();
@@ -30,7 +30,8 @@ function App() {
     <div className="App">
       
       <Routes>
-        <Route path = '/' element = {<Menu/>} />
+        <Route path='/' element={<CanteenPage />} />
+        <Route path = '/home' element = {<Menu/>} />
         <Route path = '/cart' element = {authUser === null ? <Menu/> : <Cart/>} />
         
         <Route path = '/about' element = {<AboutUs/>} />
