@@ -738,30 +738,30 @@ const DecrementQty = (Food) => {
     </div>
 
     <div className='flex items-center gap-4 mt-4 sm:mt-0'>
-      {authUser === null ? (
-        <div onClick={() => setLogin(!login)} className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 px-6 rounded-3xl cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition duration-300 ease-in-out">
-          <h1 className="text-sm sm:text-base font-semibold tracking-wide">Log in</h1>
-        </div>
-      ) : (
-        <div className='flex gap-5'>
-          <div onClick={Checkout} className='bg-white h-10 w-10 sm:h-[60px] sm:w-[60px] rounded-full flex justify-center items-center cursor-pointer shadow hover:shadow-md'>
-            {/* Cart Icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"  className="bi bi-cart" viewBox="0 0 16 16">
-              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
-            </svg>
-          </div>
+      {authUser === null && !login? 
+      <div 
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      // clicking outside closes modal
+    >
 
-          <div
-            onClick={() => navigate('/MyProfile')}
-            className="bg-gradient-to-r from-red-500 to-red-600 text-white py-2 sm:py-2.5 px-4 sm:px-6 rounded-full cursor-pointer shadow-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 ease-in-out flex items-center justify-center"
-          >
-            <h1 className="text-sm sm:text-base md:text-lg font-semibold">My Profile</h1>
-          </div>
+      <div 
+        className="relative z-60  rounded-lg p-6 w-full max-w-md"
+        
+      >
+        {/* Close button */}
+        <button
+          onClick={() => setLogin(!login)}
+          className="absolute top-64 right-16 lg:top-44 lg:right-16 text-red-700 hover:text-gray-900 text-2xl font-bold"
+          aria-label="Close modal"
+        >
+          &times;
+        </button>
 
+        <Login />
+      </div>
+    </div>
+    :null}
 
-          <Logout />
-        </div>
-      )}
     </div>
   </div>
 
