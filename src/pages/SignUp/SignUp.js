@@ -94,7 +94,7 @@ const SignUp = () => {
 			}
 
       setAuthUser(data.token);
-      navigate("/");
+      navigate("/home");
 			toast.success('Signed Up Successfully !')
 		} catch (error) {
 
