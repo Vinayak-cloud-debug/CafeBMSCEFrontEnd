@@ -39,7 +39,7 @@ const PlaceOrder = () => {
 
   alert(items)
   alert(EmailId)
-  alert(totalAmount)
+  alert(totalAmt)
  
 
   axios.post("https://cafebmscebackend.onrender.com/api/ConfirmOrderDetails",
