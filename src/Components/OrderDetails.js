@@ -70,7 +70,7 @@ const PlaceOrder = () => {
 
       <div className="bg-white rounded-xl shadow-md p-6">
         <h2 className="text-2xl font-semibold mb-4 text-gray-800">🧾 Order Summary</h2>
-        <h2 className="text-2xl font-normal mb-4 text-gray-800">  Restaurant:{canteenName}</h2>
+        <h2 className="text-xl font-normal mb-4 text-gray-800">  Restaurant:{canteenName}</h2>
 
         {userCart.map((item, idx) => (
           <div
