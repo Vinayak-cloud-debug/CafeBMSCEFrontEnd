@@ -20,7 +20,7 @@ import VerifyOTP from './pages/verifyOtp/verifyGmailOtp';
 import MyProfile from './Components/Profile';
 import { useAuthContext } from './context/AuthContext';
 import AdminPage from './Components/AdminPage';
-import CanteenPage from './Components/Canteens.';
+import CanteenPage from './Components/Canteens';
 function App() {
  
       const {authUser} = useAuthContext();
