@@ -11,9 +11,15 @@ export const SET_DINNER = 'SET_DINNER';
 export const SET_DRINK = 'SET_DRINK';
 export const SET_LUNCH = 'SET_LUNCH';
 export const SET_DESSERT = 'SET_DESSERT';
+export const SET_NOODLES = 'SET_NOODLES';
 export const SET_EMPTY_MENU_LIST = 'SET_EMPTY_MENU_LIST';
 
 // Action creators
+
+export const setNoodles = (noodles) => ({
+  type: SET_NOODLES,
+  payload: noodles,
+});
 
 export const setMenuList = (menuList) => ({
   type: SET_MENU_LIST,
