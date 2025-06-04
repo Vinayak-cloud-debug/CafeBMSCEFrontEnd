@@ -229,6 +229,7 @@ export default function MyProfile() {
             email:email
         })
         setOrders(res.data.orders);
+         console.log(res.data);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
       } finally {
@@ -277,7 +278,7 @@ export default function MyProfile() {
     <div className="mt-10">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">Your Orders</h2>
       
-      {orders.length === 0 ? (
+      {!orders || orders.length === 0 ? (
         <p className="text-gray-500 text-center">No orders found.</p>
       ) : (
         orders.map((order, idx) => (
