@@ -46,7 +46,7 @@ function App() {
         <Route path='/verifyOTP' element={<VerifyOTP />} />
         <Route path='/forgot-password' element={<ForgotPassword />} />
         <Route path='/MyProfile' element={authUser === null ? <Menu/> : <MyProfile />} />
-        <Route path='/AdminPage' element={<AdminPage />} />
+    
 
 
 
