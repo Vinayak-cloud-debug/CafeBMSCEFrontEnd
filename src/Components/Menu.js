@@ -115,6 +115,7 @@ function Menu() {
     const selectedCategory = categories[index - 1];
 
     if (selectedCategory) {
+        dispatch(setMenuList([]));
       axios.post("https://cafebmscebackend.onrender.com/api/GetFoodItemsByCategory", { SelectedCategory: selectedCategory })
         .then(response => {
             setTimeout(()=>{
