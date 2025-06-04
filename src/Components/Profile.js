@@ -228,7 +228,7 @@ export default function MyProfile() {
         const res = await axios.post(`https://cafebmscebackend.onrender.com/api/fetchUserOrdersEmail`,{
             email:email
         })
-        setOrders(res.data);
+        setOrders(res.data.orders);
          console.log(res.data);
       } catch (err) {
         console.error("Failed to fetch orders:", err);
