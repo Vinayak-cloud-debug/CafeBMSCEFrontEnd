@@ -406,7 +406,7 @@ const DecrementQty = (Food) => {
       Welcome to BMSCE<span className="text-red-600">.</span>
     </h1>
     <p className="text-lg text-gray-600">
-      We are getting you dishes...
+      We are getting your Favorite dishes...
     </p>
 <div className="flex space-x-2">
   <div className="w-4 h-4 bg-red-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
