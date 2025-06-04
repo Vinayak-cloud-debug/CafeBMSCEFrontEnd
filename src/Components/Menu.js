@@ -60,11 +60,15 @@ function Menu() {
   useEffect(() => {
   axios.get("https://cafebmscebackend.onrender.com/api/GetAllFoodItems")
     .then(response => {
-      const updatedMenuList = response.data.map(Item => {
+           setTimeout(()=>{
+
+
+        const updatedMenuList = response.data.map(Item => {
         const CartItem = userCart.find(cartItem => cartItem.Name === Item.Name);
         return CartItem ? { ...Item, qty: CartItem.qty } : { ...Item, qty: 0 };
       });
       dispatch(setMenuList(updatedMenuList));
+      },4000)
     })
     .catch(err => console.log(err));
 }, []); // <--- add userCart as a dependency
@@ -113,12 +117,15 @@ function Menu() {
     if (selectedCategory) {
       axios.post("https://cafebmscebackend.onrender.com/api/GetFoodItemsByCategory", { SelectedCategory: selectedCategory })
         .then(response => {
-          const updatedMenuList = response.data.map(Item => {
+            setTimeout(()=>{
+
+            const updatedMenuList = response.data.map(Item => {
             const CartItem = userCart.find(cartItem => cartItem.Name === Item.Name);
             return CartItem ? { ...Item, qty: CartItem.qty } : { ...Item, qty: 0 };
           });
           
           dispatch(setMenuList(updatedMenuList));
+          },4000)
         })
         .catch(err => console.log(err));
     }
@@ -377,32 +384,102 @@ const DecrementQty = (Food) => {
 
 
   {/* Menu Grid */}
-  <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10'>
-    {menuList && menuList.map((Item, index) => (
-      <div key={index} className='bg-white rounded-3xl p-4 shadow-lg hover:shadow-2xl transition duration-300'>
-        <img src={Item.imgUrl} alt={Item.Name} className='w-full h-48 object-cover rounded-xl' />
-        <h2 className='text-xl font-bold mt-4 text-gray-800'>{Item.Name}</h2>
-        <p className='text-sm text-gray-500 mt-2'>{Item.Description}</p>
+  // <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10'>
+  //   {menuList && menuList.map((Item, index) => (
+  //     <div key={index} className='bg-white rounded-3xl p-4 shadow-lg hover:shadow-2xl transition duration-300'>
+  //       <img src={Item.imgUrl} alt={Item.Name} className='w-full h-48 object-cover rounded-xl' />
+  //       <h2 className='text-xl font-bold mt-4 text-gray-800'>{Item.Name}</h2>
+  //       <p className='text-sm text-gray-500 mt-2'>{Item.Description}</p>
         
 
-        {/* Price and Quantity */}
-        <div className='flex items-center justify-between mt-4'>
-          <span className='text-lg font-semibold text-gray-800'>₹{Item.Price}</span>
+  //       {/* Price and Quantity */}
+  //       <div className='flex items-center justify-between mt-4'>
+  //         <span className='text-lg font-semibold text-gray-800'>₹{Item.Price}</span>
+  //         {Item.qty === 0 ? (
+  //           <button onClick={() => AddItem(Item)} className='bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium shadow'>
+  //             Order Now
+  //           </button>
+  //         ) : (
+  //           <div className='flex items-center gap-3 bg-red-100 px-3 py-1 rounded-xl shadow'>
+  //             <button onClick={(e) => { e.stopPropagation(); IncrementQty(Item); }} className='text-green-600 text-xl font-bold'>+</button>
+  //             <span className='font-semibold text-lg'>{Item.qty}</span>
+  //             <button onClick={(e) => { e.stopPropagation(); DecrementQty(Item); }} className='text-green-600 text-xl font-bold'>-</button>
+  //           </div>
+  //         )}
+  //       </div>
+  //     </div>
+  //   ))}
+  // </div>
+
+
+ <div className='flex flex-wrap justify-center gap-6 sm:gap-10 mt-10'>
+  {(!menuList || menuList.length === 0) ? (
+  <div className="fixed inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center z-50 gap-8">
+     <div className='text-2xl sm:text-3xl font-medium bg-red-500 h-16 w-16 sm:h-[90px] sm:w-[90px] rounded-full flex justify-center items-center text-white transform -rotate-12'>
+        Cafe
+      </div>
+    <h1 className="text-4xl font-extrabold text-gray-700">
+      Welcome to BMSCE<span className="text-red-600">.</span>
+    </h1>
+    <p className="text-lg text-gray-600">
+      We are getting you dishes...
+    </p>
+<div className="flex space-x-2">
+  <div className="w-4 h-4 bg-red-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+  <div className="w-4 h-4 bg-red-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+  <div className="w-4 h-4 bg-red-500 rounded-full animate-bounce"></div>
+</div>
+  </div>
+)
+   : (
+    // Menu Items
+    menuList.map((Item, index) => (
+      <div key={index} className='bg-white rounded-3xl p-4 max-w-xs w-full shadow-md flex flex-col items-center'>
+        <img className='w-full h-48 object-cover rounded-xl' src={Item.imgUrl} alt={Item.Name} />
+        <h1 className='text-xl sm:text-2xl font-semibold mt-4'>{Item.Name}</h1>
+        <p className='text-sm text-center mt-2 px-2'>{Item.Description}</p>
+        <div className='flex gap-1 mt-2'>
+          {[...Array(5)].map((_, i) => (
+            <svg key={i} className='w-4 h-4 text-yellow-400' xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M3.612 15.443c-.396.198-.824-.149-.746-.592l.83-4.73-3.523-3.356c-.329-.314-.158-.888.283-.95l4.898-.696L8.465.792c.197-.39.73-.39.927 0l2.19 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.35.79-.746.592L8 13.187l-4.389 2.256z"/>
+            </svg>
+          ))}
+        </div>
+        <div className='flex items-center justify-between w-full mt-4'>
+          <span className='text-xl font-medium'>Rs. {Item.Price}</span>
           {Item.qty === 0 ? (
-            <button onClick={() => AddItem(Item)} className='bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium shadow'>
+            <button
+              onClick={() => AddItem(Item)}
+              className='bg-red-500 text-white px-4 py-2 rounded-xl text-sm hover:bg-red-600 transition-shadow duration-300 shadow-md'
+            >
               Order Now
             </button>
           ) : (
-            <div className='flex items-center gap-3 bg-red-100 px-3 py-1 rounded-xl shadow'>
-              <button onClick={(e) => { e.stopPropagation(); IncrementQty(Item); }} className='text-green-600 text-xl font-bold'>+</button>
+            <div className='flex items-center gap-3 bg-red-100 px-3 py-1 rounded-xl shadow-lg'>
+              <button 
+                onClick={(e) => { e.stopPropagation(); IncrementQty(Item); }} 
+                className='text-green-600 text-2xl font-bold hover:text-green-800 transition-colors duration-300 select-none'
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
               <span className='font-semibold text-lg'>{Item.qty}</span>
-              <button onClick={(e) => { e.stopPropagation(); DecrementQty(Item); }} className='text-green-600 text-xl font-bold'>-</button>
+              <button 
+                onClick={(e) => { e.stopPropagation(); DecrementQty(Item); }} 
+                className='text-green-600 text-2xl font-bold hover:text-green-800 transition-colors duration-300 select-none'
+                aria-label="Decrease quantity"
+              >
+                -
+              </button>
             </div>
           )}
         </div>
       </div>
-    ))}
-  </div>
+    ))
+  )}
+</div>
+
+ 
 
   <div className='mt-32' />
 </div>
