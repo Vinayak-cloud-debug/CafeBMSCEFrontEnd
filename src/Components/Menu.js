@@ -23,6 +23,7 @@ import Login from '../pages/Login/login';
 import { set } from 'lodash';
 import { useAuthContext } from '../context/AuthContext';
 import Logout from '../pages/LogOut/Logout';
+import toast, { Toaster } from 'react-hot-toast';
 
 function Menu() {
   const dispatch = useDispatch();
@@ -135,6 +136,11 @@ function Menu() {
 
 
   const AddItem = (Food) => {
+
+   if(authUser == null){
+      toast.error('Login to Order your Dishes')
+      return;
+    }
 
 
   if (!breakFast && !lunch && !dinner && !dessert && !drinks && !noodle) {
@@ -457,6 +463,8 @@ const DecrementQty = (Food) => {
  
 
   <div className='mt-32' />
+      <Toaster/>
+
 </div>
 
 
