@@ -384,32 +384,6 @@ const DecrementQty = (Food) => {
 
 
 
-  // <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10'>
-  //   {menuList && menuList.map((Item, index) => (
-  //     <div key={index} className='bg-white rounded-3xl p-4 shadow-lg hover:shadow-2xl transition duration-300'>
-  //       <img src={Item.imgUrl} alt={Item.Name} className='w-full h-48 object-cover rounded-xl' />
-  //       <h2 className='text-xl font-bold mt-4 text-gray-800'>{Item.Name}</h2>
-  //       <p className='text-sm text-gray-500 mt-2'>{Item.Description}</p>
-        
-
-  //       {/* Price and Quantity */}
-  //       <div className='flex items-center justify-between mt-4'>
-  //         <span className='text-lg font-semibold text-gray-800'>₹{Item.Price}</span>
-  //         {Item.qty === 0 ? (
-  //           <button onClick={() => AddItem(Item)} className='bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl text-sm font-medium shadow'>
-  //             Order Now
-  //           </button>
-  //         ) : (
-  //           <div className='flex items-center gap-3 bg-red-100 px-3 py-1 rounded-xl shadow'>
-  //             <button onClick={(e) => { e.stopPropagation(); IncrementQty(Item); }} className='text-green-600 text-xl font-bold'>+</button>
-  //             <span className='font-semibold text-lg'>{Item.qty}</span>
-  //             <button onClick={(e) => { e.stopPropagation(); DecrementQty(Item); }} className='text-green-600 text-xl font-bold'>-</button>
-  //           </div>
-  //         )}
-  //       </div>
-  //     </div>
-  //   ))}
-  // </div>
 
 
  <div className='flex flex-wrap justify-center gap-6 sm:gap-10 mt-10'>
