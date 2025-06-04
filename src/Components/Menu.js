@@ -383,7 +383,7 @@ const DecrementQty = (Food) => {
 </div>
 
 
-  {/* Menu Grid */}
+
   // <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-10'>
   //   {menuList && menuList.map((Item, index) => (
   //     <div key={index} className='bg-white rounded-3xl p-4 shadow-lg hover:shadow-2xl transition duration-300'>
