@@ -874,6 +874,38 @@ const DecrementQty = (Food) => {
     </div>
   </div>
 
+
+ {(!nashta && !oota && !nightOota && !icecream && !noodle && !drinks)?
+
+    <h2 className='font-medium text-lg'>Select Your Dish Category from Menu Icon </h2>
+  :
+  (nashta && !oota && !nightOota && !icecream && !noodle && !drinks)?
+  <h2 className='font-medium text-lg'>Here are you Breakfast Dishes </h2>
+  :
+
+    (!nashta && oota && !nightOota && !icecream && !noodle && !drinks)?
+    <h2 className='font-medium text-lg'>Here are you Lunch </h2>
+  :
+
+      (!nashta && !oota && nightOota && !icecream && !noodle && !drinks)?
+      <h2 className='font-medium text-lg'>Here are your Dinner </h2>
+  :
+
+        (!nashta && !oota && !nightOota && icecream && !noodle && !drinks)?
+        <h2 className='font-medium text-lg'>Here are your Delicious Icecreams </h2>
+  :
+
+          (!nashta && !oota && !nightOota && !icecream && noodle && !drinks)?
+          <h2 className='font-medium text-lg'>Here are you Noodles </h2>
+  :
+
+            (!nashta && !oota && !nightOota && !icecream && !noodle && drinks)?
+            <h2 className='font-medium text-lg'>Here are your Drinks </h2>
+  :null
+
+            
+  }
+
   {/* Search Results Info */}
   {searchQuery && (
     <div className='text-center text-gray-600'>
