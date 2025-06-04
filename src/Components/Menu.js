@@ -138,7 +138,10 @@ function Menu() {
   const AddItem = (Food) => {
 
    if(authUser == null){
-      toast.error('Login to Order your Dishes')
+      toast.error('Login to Order your Dishes', {
+      duration: 3000, // duration in milliseconds (5000ms = 5 seconds)
+    });
+       
       return;
     }
 
